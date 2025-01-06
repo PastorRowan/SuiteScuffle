@@ -34,20 +34,19 @@ function Card({
             className=""
             onClick={handleClick}
         >
-            {
-                flipped ? (
-                    <div className="aspect-[37/54] w-[222px] h-[324px]">
-                        <img
-                            src="/src/assets/cards/2_of_clubs.svg"
-                        />
-                    </div>
-                ) : (
-                    <div className="aspect-[37/54] w-[222px] h-[324px]">
-                        <img
-                            src="/src/assets/cards/back.svg"
-                        />
-                    </div>
-            )}
+            <div className="aspect-[37/54] w-[222px] h-[324px]">
+                {
+                    flipped ? (
+                            <img
+                                src="/src/assets/cards/2_of_clubs.svg"
+                            />
+                    ) : (
+                            <img
+                                src="/src/assets/cards/back.svg"
+                            />
+                    )
+                }
+            </div>
         </div>
     );
 
