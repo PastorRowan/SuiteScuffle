@@ -3,20 +3,20 @@ import { useState } from "react";
 
 // Define props for the component
 interface CardProps {
-    id: string; // Unique identifier for the card
-    rank: string; // The rank of the card (e.g., "2", "King", "Ace")
-    suit: string; // The suit of the card (e.g., "Hearts", "Spades")
-    startFlipped: boolean; // Whether the card is face-up
+    id: string | undefined,
+    rank: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | "joker",
+    suite: "clubs" | "spades" | "hearts" | "diamonds" | "joker",
+    startFlipped?: boolean; // Whether the card is face-up
     isSelected?: boolean; // Optional: Whether the card is currently selected
-  } 
+};
 
 // Functional Component in TypeScript
-function Card({
+export default function Card({
     id,
     rank,
-    suit,
-    startFlipped, 
-    isSelected,
+    suite,
+    startFlipped = false, 
+    isSelected = false,
 }: CardProps): JSX.Element {
 
     const [
@@ -29,27 +29,31 @@ function Card({
         setFlipped((prev) => !prev);
     };
 
+    // Decide which image source based on rank and suite
+    let cardImageSrc = `/src/assets/cards/back.svg`; // Default to back image
+    if (flipped) {
+
+    } else if (rank === "joker" && suite === "joker") {
+        cardImageSrc = `/src/assets/cards/joker.svg`;
+    } else if (typeof rank === "number" && 1 >= rank && rank <= 13) {
+        cardImageSrc = `/src/assets/cards/${rank}_of_${suite}.svg`;
+    } else {
+        throw new Error("suite and rank invalid");
+    };
+
     return (
         <div
-            className=""
+            {...(id ? { id } : {})} // Conditionally add 'id' only if it's defined
+            className="aspect-[37/54] w-[222px] h-[324px]"
             onClick={handleClick}
         >
-            <div className="aspect-[37/54] w-[222px] h-[324px]">
-                {
-                    flipped ? (
-                            <img
-                                src="/src/assets/cards/2_of_clubs.svg"
-                            />
-                    ) : (
-                            <img
-                                src="/src/assets/cards/back.svg"
-                            />
-                    )
-                }
-            </div>
+            {
+                <img
+                    src={cardImageSrc}
+                    alt={`Card ${rank} of ${suite}`}
+                />
+            }
         </div>
     );
 
 };
-
-export default Card;

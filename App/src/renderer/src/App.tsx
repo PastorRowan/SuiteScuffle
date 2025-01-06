@@ -1,13 +1,26 @@
 
-import Card from "./components/Card";
+// Components
+import GameBoard from "./components/GameBoard";
+import { Player } from "@models/Player";
 
 function App(): JSX.Element {
+
+    // Sample players
+    const players: Player[] = [
+        new Player("1", "Alice"),
+        new Player("2", "Bob"),
+    ];
+
     return (
         <div>
-            <h1 className="bg-gray-400">working?</h1>
-            <Card />
+            <GameBoard
+                id="1"
+                players={players}
+                currentTurn="Alice"
+            />
         </div>
     );
-};
+
+}
 
 export default App;
