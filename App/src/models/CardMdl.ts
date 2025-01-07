@@ -2,31 +2,47 @@
 import { ICard } from "@interfaces/ICard";
 
 // src/models/Card.ts
+interface CardMdlProps {
+    id: string,
+    rank: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | "joker",
+    suite: "clubs" | "spades" | "hearts" | "diamonds" | "joker",
+};
+
 export class CardMdl implements ICard {
 
-    private suit: string;
-    private value: string;
+    public id: string;
+    public rank: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | "joker";
+    public suite: "clubs" | "spades" | "hearts" | "diamonds" | "joker";
 
-    constructor(suit: string, value: string) {
-        this.suit = suit;
-        this.value = value;
+    constructor({
+        id,
+        rank,
+        suite,
+    }: CardMdlProps) {
+        this.id = id;
+        this.rank = rank;
+        this.suite = suite;
+    };
+
+    getId(): string {
+        return this.id;
+    };
+
+    getRank(): 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | "joker" {
+        return this.rank;
     };
 
     // Get the suit of the card
-    getSuit(): string {
-        return this.suit;
-    };
-
-    // Get the value of the card
-    getValue(): string {
-        return this.value;
+    getSuite(): "clubs" | "spades" | "hearts" | "diamonds" | "joker" {
+        return this.suite;
     };
 
     // Optionally, you can add a method to represent the card as a string (e.g., "Ace of Spades")
     toString(): string {
-        return `${this.value} of ${this.suit}`;
+        return `${this.rank} of ${this.suite}`;
     };
 
     // You can extend this class further by adding methods based on game rules
     // e.g., compare two cards, check for special abilities, etc.
+
 };

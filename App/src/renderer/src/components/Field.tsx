@@ -1,21 +1,28 @@
 
-import { IField } from "@interfaces/IField";
 import Card from "./Card";
-import React from "react";
+import { CardMdl } from "@models/CardMdl";
+
+interface IField {
+    cardMdls: CardMdl[];
+};
 
 export default function Field({
-    cardMdls,
+    cardMdls = [],
 }: IField): JSX.Element {
     return (
-        <div>
-            {cardMdls.map((cardMdl) => (
-                <Card
-                    id={cardMdl.getId()}
-                    rank={cardMdl.getRank()}
-                    suite={cardMdl.getSuite()}
-                    key={cardMdl.getId()}
-                />
-            ))}
+        <div
+            className="flex justify-center"
+        >
+            {cardMdls.map((cardMdl: CardMdl) => {
+                return (
+                    <Card
+                        id={cardMdl.getId()}
+                        rank={cardMdl.getRank()}
+                        suite={cardMdl.getSuite()}
+                        key={cardMdl.getId()}
+                    />
+                );
+            })}
         </div>
     );
 };

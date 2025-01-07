@@ -8,6 +8,8 @@ interface CardProps {
     suite: "clubs" | "spades" | "hearts" | "diamonds" | "joker",
     startFlipped?: boolean; // Whether the card is face-up
     isSelected?: boolean; // Optional: Whether the card is currently selected
+    isFlippable?: boolean,
+    isSelectable?: boolean,
 };
 
 // Functional Component in TypeScript
@@ -15,8 +17,10 @@ export default function Card({
     id,
     rank,
     suite,
-    startFlipped = false, 
+    startFlipped = false,
+    isFlippable = true,
     isSelected = false,
+    isSelectable = true,
 }: CardProps): JSX.Element {
 
     const [
@@ -26,7 +30,9 @@ export default function Card({
 
     // Toggle flip when the card is clicked
     function handleClick(): void {
-        setFlipped((prev) => !prev);
+        if (isFlippable) {
+            setFlipped((prev) => !prev);
+        };
     };
 
     // Decide which image source based on rank and suite
@@ -35,20 +41,21 @@ export default function Card({
 
     } else if (rank === "joker" && suite === "joker") {
         cardImageSrc = `/src/assets/cards/joker.svg`;
-    } else if (typeof rank === "number" && 1 >= rank && rank <= 13) {
+    } else if ((typeof rank === "number") && (1 <= rank && rank <= 13)) {
         cardImageSrc = `/src/assets/cards/${rank}_of_${suite}.svg`;
     } else {
-        throw new Error("suite and rank invalid");
+        throw new Error(`suite and rank invalid: suite: ${suite} typeof: ${typeof suite} rank: ${rank} typeof: ${typeof rank}`);
     };
 
     return (
         <div
             {...(id ? { id } : {})} // Conditionally add 'id' only if it's defined
-            className="aspect-[37/54] w-[222px] h-[324px]"
+            className="aspect-[37/54] w-[65px]" // w-[222px] h-[324px]
             onClick={handleClick}
         >
             {
                 <img
+                    className="h-full"
                     src={cardImageSrc}
                     alt={`Card ${rank} of ${suite}`}
                 />

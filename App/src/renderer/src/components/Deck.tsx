@@ -1,17 +1,15 @@
 
-import { IDeck } from "@interfaces/IDeck";
+// import { IDeck } from "@interfaces/IDeck";
+import Card from "./Card";
 
-export default function Deck({
-    cards: [],
-}): IDeck {
+export default function Deck() {
     return (
-        <div
-            id="deck" 
-            className=""
-        >
-            <img
-                src="/src/assets/cards/back.svg"
-            />
-        </div>
+        <Card
+            id="deck"
+            rank={1}
+            suite="clubs"
+            startFlipped={true}
+            isFlippable={false}
+        />
     );
 };

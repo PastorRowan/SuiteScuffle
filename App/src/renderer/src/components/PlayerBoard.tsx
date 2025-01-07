@@ -6,16 +6,19 @@ import Field from "./Field";
 import Hand from "./Hand";
 
 export default function PlayerBoard({
+    className = "",
     field = [],
     hand = [],
 }: IPlayerBoard): JSX.Element {
     return (
-        <div>
+        <div
+            className={className}
+        >
             <Field
-                field={field}
+                cardMdls={field}
             />
             <Hand
-                hand={hand}
+                cardMdls={hand}
             />
         </div>
     );
