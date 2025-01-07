@@ -5,10 +5,14 @@ import Card from "./Card";
 
 interface Hand {
     cardMdls: CardMdl[],
+    isPlayersTurn: boolean,
+    isControlledPlayer: boolean,
 };
 
 export default function Hand({
     cardMdls = [],
+    isPlayersTurn = false,
+    isControlledPlayer = false,
 }: Hand): JSX.Element {
     return (
         <div
@@ -18,8 +22,10 @@ export default function Hand({
                 return (
                     <Card
                         id={cardMdl.getId()}
+                        cardMdl={cardMdl}
                         rank={cardMdl.getRank()}
                         suite={cardMdl.getSuite()}
+                        isControlledPlayersTurn={isPlayersTurn && isControlledPlayer}
                         key={cardMdl.getId()}
                     />
                 );

@@ -5,11 +5,14 @@ import PlayerBoard from "./PlayerBoard";
 import { PlayerMdl } from "@models/PlayerMdl";
 import Deck from "./Deck";
 
+import { useAtom } from "jotai";
+import { currentPlayerAtom, controlledPlayerAtom } from "@state/atoms/atoms";
+
 // Define the props interface for GameBoard
 interface GameBoardProps {
     id: string;
     players: PlayerMdl[];
-    currentTurn: string;
+    currentTurn: string; // make type id or even player id just makes things easier
 };
 
 export default function GameBoard({
@@ -17,6 +20,11 @@ export default function GameBoard({
     players,
     currentTurn,
 }: GameBoardProps ): JSX.Element {
+
+    // Using Jotai's useAtom hook to access the atoms
+    const [ currentPlayer ] = useAtom(currentPlayerAtom); // Current player atom
+    const [ controlledPlayer, setControlledPlayer ] = useAtom(controlledPlayerAtom); // Controlled player atom
+
     return (
         <div className="w-full h-screen bg-pink-500 bg-opacity-50">
             <div className="w-full ml-4">
@@ -31,37 +39,39 @@ export default function GameBoard({
             >
                 <Deck />
             </div>
-            <div className="w-full h-[80%] bg-green-500 bg-opacity-50">
+            {/* Render Player Boards */}
 
-                {players.map((playerMdl: PlayerMdl, index: Number) => {
-                    let positionClass = "";
-                    switch (index) {
-                        case 0:
-                            positionClass = "absolute bottom-0 left-1/2 transform -translate-x-1/2";
-                            break;
-                        case 1:
-                            positionClass = "absolute top-0 left-1/2 transform -translate-x-1/2 rotate-180";
-                            break;
-                        case 2:
-                            positionClass = "absolute left-0 top-1/2 transform -translate-y-1/2";
-                            break;
-                        case 3:
-                            positionClass = "absolute right-0 top-1/2 transform -translate-y-1/2";
-                            break;
-                        default:
-                            break;
-                    };
-                    return (
-                        <PlayerBoard
-                            className={positionClass}
-                            field={playerMdl.getField()}
-                            hand={playerMdl.getHand()}
-                            key={playerMdl.getId()}
-                        />
-                    );
-                })}
-                
-            </div>
+            {players.map((playerMdl: PlayerMdl, index: Number) => {
+                let positionClass = "";
+                switch (index) {
+                    case 0:
+                        positionClass = "w-full absolute bottom-0 left-0"; // transform -translate-x-1/2
+                        break;
+                    case 1:
+                        positionClass = "w-full absolute top-0 left-0"; // transform -translate-x-1/2 rotate-180
+                        break;
+                    // not working atm
+                    case 2:
+                        positionClass = "w-full absolute left-0 top-1/2 transform -translate-y-1/2";
+                        break;
+                    case 3:
+                        positionClass = "w-full absolute right-0 top-1/2 transform -translate-y-1/2";
+                        break;
+                    default:
+                        break;
+                };
+                return (
+                    <PlayerBoard
+                        className={positionClass}
+                        playerId={playerMdl.getId()}
+                        field={playerMdl.getField()}
+                        hand={playerMdl.getHand()}
+                        isPlayersTurn={currentTurn === playerMdl.getId()}
+                        isControlledPlayer={currentPlayer.getId() === controlledPlayer?.getId()}
+                        key={playerMdl.getId()}
+                    />
+                );
+            })}
         </div>
     );
 };
