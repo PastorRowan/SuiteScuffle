@@ -35,6 +35,14 @@ export class PlayerMdl implements IPlayer {
         this.field = field;
     };
 
+    isPlayerCard(id: string): boolean {
+
+        const allPlayerCards = [...this.getField(), ...this.getHand()];
+
+        return allPlayerCards.some((card: CardMdl) => card.getId() === id);
+
+    };
+
     getHand(): Array<CardMdl> {
         return this.hand;
     };

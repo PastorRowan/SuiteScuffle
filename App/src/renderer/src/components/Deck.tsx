@@ -1,8 +1,8 @@
 
-// import { IDeck } from "@interfaces/IDeck";
-import Card from "./Card";
 import { useAtom } from "jotai";
 import { nextTurnAtom } from "@state/atoms/atoms";
+
+import CardDisplay from "./CardDisplay";
 
 export default function Deck() {
 
@@ -16,13 +16,12 @@ export default function Deck() {
         >
             Next Turn
         </button>
-        <Card
+        <CardDisplay
             id="deck"
-            cardMdl={null}
+            className="aspect-[37/54] w-[65px]"
             rank={1}
             suite="clubs"
-            startFlipped={true}
-            isFlippable={false}
+            frontFacing={false}
         />
         </>
     );

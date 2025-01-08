@@ -1,31 +1,41 @@
 
+import ControlledCard from "./ControlledCard";
+import EnemyCard from "./EnemyCard";
 import { CardMdl } from "@models/CardMdl";
 
-import Card from "./Card";
+import { useAtom } from "jotai";
+import {
+    controlledPlayerAtom,
+} from "@state/atoms/atoms";
 
 interface Hand {
     cardMdls: CardMdl[],
-    isPlayersTurn: boolean,
-    isControlledPlayer: boolean,
 };
 
 export default function Hand({
     cardMdls = [],
-    isPlayersTurn = false,
-    isControlledPlayer = false,
 }: Hand): JSX.Element {
+    
+    const [ controlledPlayer ] = useAtom(controlledPlayerAtom);
+
     return (
         <div
             className="flex justify-center"
         >
+
             {cardMdls.map((cardMdl: CardMdl) => {
+
+                const isControlledCard = controlledPlayer?.isPlayerCard(cardMdl.getId());
+
                 return (
-                    <Card
-                        id={cardMdl.getId()}
+                    isControlledCard ?
+                    <ControlledCard
                         cardMdl={cardMdl}
-                        rank={cardMdl.getRank()}
-                        suite={cardMdl.getSuite()}
-                        isControlledPlayersTurn={isPlayersTurn && isControlledPlayer}
+                        key={cardMdl.getId()}
+                    />
+                    :
+                    <EnemyCard
+                        cardMdl={cardMdl}
                         key={cardMdl.getId()}
                     />
                 );

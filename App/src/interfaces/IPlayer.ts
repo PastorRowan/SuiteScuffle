@@ -9,6 +9,9 @@ export interface IPlayer {
     isTurn?: boolean;
     hand?: Array<CardMdl>;
     field?: Array<CardMdl>;
+    isPlayerCard(id: string): boolean,
+    getHand(): Array<CardMdl>,
+    getField(): Array<CardMdl>,
     getId(): string;
     getName(): string;
     setName(name: string): void;

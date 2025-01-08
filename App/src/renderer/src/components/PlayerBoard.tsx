@@ -1,36 +1,29 @@
 
-import { IPlayerBoard } from "@interfaces/IPlayerBoard";
+import { PlayerMdl } from "@models/PlayerMdl";
 
 import Field from "./Field";
 
 import Hand from "./Hand";
 
+export interface IPlayerBoardProps {
+    className: string;
+    playerMdl: PlayerMdl;
+};
+
 export default function PlayerBoard({
     className = "",
-    playerId = "",
-    field = [],
-    hand = [],
-    isControlledPlayer = false,
-    isPlayersTurn = false,
-}: IPlayerBoard): JSX.Element {
-
-    console.log("isControlledPlayer: ", isPlayersTurn);
-
-    console.log("playerId: ", playerId);
+    playerMdl,
+}: IPlayerBoardProps): JSX.Element {
 
     return (
         <div
             className={className}
         >
             <Field
-                cardMdls={field}
-                isPlayersTurn={isPlayersTurn}
-                isControlledPlayer={isControlledPlayer}
+                cardMdls={playerMdl.getField()}
             />
             <Hand
-                cardMdls={hand}
-                isPlayersTurn={isPlayersTurn}
-                isControlledPlayer={isControlledPlayer}
+                cardMdls={playerMdl.getHand()}
             />
         </div>
     );

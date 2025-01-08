@@ -63,12 +63,8 @@ export default function GameBoard({
                 return (
                     <PlayerBoard
                         className={positionClass}
-                        playerId={playerMdl.getId()}
-                        field={playerMdl.getField()}
-                        hand={playerMdl.getHand()}
-                        isPlayersTurn={currentTurn === playerMdl.getId()}
-                        isControlledPlayer={currentPlayer.getId() === controlledPlayer?.getId()}
-                        key={playerMdl.getId()}
+                        playerMdl={playerMdl}
+                        key={`player ${playerMdl.getId()}`}
                     />
                 );
             })}
