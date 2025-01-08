@@ -48,7 +48,8 @@ export default function ControlledCard({
 
     // Toggle flip when the card is clicked
     function handleClick(): void {
-        if (!isControlledPlayerTurn || id === null || !controlledPlayer?.isPlayerCard(id)) {
+
+        if (!isControlledPlayerTurn || !controlledPlayer?.isPlayerCard(id)) {
             return;
         };
     

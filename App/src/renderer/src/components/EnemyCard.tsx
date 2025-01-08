@@ -7,7 +7,8 @@ import { useState } from "react";
 import { useAtom } from "jotai";
 import {
     isControlledPlayerTurnAtom,
-    controlledPlayerSelectedCardAtom,
+    controlledPlayerSelectedEnemyCardAtom,
+    hasControlledPlayerSelectedCardsAtom,
     currentPlayerFieldAtom,
     currentPlayerHandAtom,
     controlledPlayerAtom,
@@ -28,8 +29,9 @@ export default function EnemyCard({
     const [ flipped, setFlipped ] = useState(startFlipped); // State to manage the flip
     const [ isHovered, setIsHovered ] = useState(false); // State to manage hover effect
     const [ isControlledPlayerTurn ] = useAtom(isControlledPlayerTurnAtom);
-    const [ controlledPlayerSelectedCard, setControlledPlayerSelectedCard ] = useAtom(controlledPlayerSelectedCardAtom);
+    const [ controlledPlayerSelectedEnemyCard, setControlledPlayerSelectedEnemyCard ] = useAtom(controlledPlayerSelectedEnemyCardAtom);
     const [ controlledPlayer, setControlledPlayer ] = useAtom(controlledPlayerAtom);
+    const [ hasControlledPlayerSelectedCards ] = useAtom(hasControlledPlayerSelectedCardsAtom);
     // const [ currentPlayerField, setCurrentPlayerField ] = useAtom(currentPlayerFieldAtom);
     // const [ currentPlayerHand, setCurrentPlayerHand ] = useAtom(currentPlayerHandAtom);
 
@@ -47,17 +49,17 @@ export default function EnemyCard({
             setFlipped((prev) => !prev);
         };
         */
-        if (!isControlledPlayerTurn || id === null ||!controlledPlayer?.isPlayerCard(id)) { // id cannot be null
+        if (!isControlledPlayerTurn || controlledPlayer?.isPlayerCard(id) || !hasControlledPlayerSelectedCards) { // id cannot be null
             return;
         };
 
         // If this card is not the currently selected card, update the selection
-        if (controlledPlayerSelectedCard?.getId() !== id) {
+        if (controlledPlayerSelectedEnemyCard?.getId() !== id) {
             // Set this card as the new selected card
-            setControlledPlayerSelectedCard(cardMdl);
+            setControlledPlayerSelectedEnemyCard(cardMdl);
         } else {
             // Optionally, you can unselect the card if it's clicked again
-            setControlledPlayerSelectedCard(null);
+            setControlledPlayerSelectedEnemyCard(null);
         };
 
     };
@@ -68,7 +70,7 @@ export default function EnemyCard({
             className={`aspect-[37/54] w-[65px] duration-300 ${
                 isHovered ? "transform translate-y-[-10px]" : "transform translate-y-0"
             } ${
-                controlledPlayerSelectedCard?.getId() === id ? "outline outline-red-500" : ""
+                controlledPlayerSelectedEnemyCard?.getId() === id ? "outline outline-red-500" : ""
             }`} // Hover effect: move card up slightly
             onClick={handleClick}
             onMouseEnter={() => setIsHovered(true)} // Set hover state when mouse enters
