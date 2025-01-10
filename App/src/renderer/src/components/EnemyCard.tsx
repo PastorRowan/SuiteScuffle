@@ -26,11 +26,11 @@ export default function EnemyCard({
     startFlipped = false,
 }: CardProps): JSX.Element {
 
-    const [ flipped, setFlipped ] = useState(startFlipped); // State to manage the flip
+    const [ flipped ] = useState(startFlipped); // State to manage the flip
     const [ isHovered, setIsHovered ] = useState(false); // State to manage hover effect
     const [ isControlledPlayerTurn ] = useAtom(isControlledPlayerTurnAtom);
     const [ controlledPlayerSelectedEnemyCard, setControlledPlayerSelectedEnemyCard ] = useAtom(controlledPlayerSelectedEnemyCardAtom);
-    const [ controlledPlayer, setControlledPlayer ] = useAtom(controlledPlayerAtom);
+    const [ controlledPlayer ] = useAtom(controlledPlayerAtom);
     const [ hasControlledPlayerSelectedCards ] = useAtom(hasControlledPlayerSelectedCardsAtom);
     // const [ currentPlayerField, setCurrentPlayerField ] = useAtom(currentPlayerFieldAtom);
     // const [ currentPlayerHand, setCurrentPlayerHand ] = useAtom(currentPlayerHandAtom);
