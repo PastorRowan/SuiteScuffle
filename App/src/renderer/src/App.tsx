@@ -4,13 +4,13 @@ import GameBoard from "./components/GameBoard";
 
 // state
 import { useAtom } from 'jotai';
-import { gameStateAtom, currentPlayerAtom, controlledPlayerAtom, nextTurnAtom } from "@state/atoms/atoms";
+import { selectGameStateAtom, currentPlayerAtom } from "@renderer/state/game/atoms/index";
 
 function App(): JSX.Element {
 
     // Accessing the state using Jotai's useAtom hook
-    const [gameState] = useAtom(gameStateAtom);
-    const [currentPlayer] = useAtom(currentPlayerAtom);
+    const [ gameState ] = useAtom(selectGameStateAtom);
+    const [ currentPlayer ] = useAtom(currentPlayerAtom);
 
     return (
         <div>
@@ -22,6 +22,14 @@ function App(): JSX.Element {
         </div>
     );
 
-}
+};
+
+/*
+            <GameBoard
+                id="1"
+                players={gameState.players}
+                currentTurn={currentPlayer.id}
+            />
+*/
 
 export default App;

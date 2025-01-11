@@ -5,8 +5,8 @@ import { CardMdl } from "@models/CardMdl";
 
 import { useAtom } from "jotai";
 import {
-    controlledPlayerAtom,
-} from "@state/atoms/atoms";
+    selectControlledPlayerAtom,
+} from "@renderer/state/game/atoms/index";
 
 interface Hand {
     cardMdls: CardMdl[],
@@ -16,7 +16,7 @@ export default function Hand({
     cardMdls = [],
 }: Hand): JSX.Element {
     
-    const [ controlledPlayer ] = useAtom(controlledPlayerAtom);
+    // const [ controlledPlayer ] = useAtom(selectControlledPlayerAtom);
 
     return (
         <div
@@ -25,7 +25,7 @@ export default function Hand({
 
             {cardMdls.map((cardMdl: CardMdl) => {
 
-                const isControlledCard = controlledPlayer?.isPlayerCard(cardMdl.getId());
+                const isControlledCard = true; // controlledPlayer?.isPlayerCard(cardMdl.getId());
 
                 return (
                     isControlledCard ?
@@ -34,7 +34,7 @@ export default function Hand({
                         key={cardMdl.getId()}
                     />
                     :
-                    <EnemyCard
+                    <ControlledCard
                         cardMdl={cardMdl}
                         key={cardMdl.getId()}
                     />

@@ -5,8 +5,8 @@ import { CardMdl } from "@models/CardMdl";
 
 import { useAtom } from "jotai";
 import {
-    controlledPlayerAtom,
-} from "@state/atoms/atoms";
+    selectControlledPlayerAtom,
+} from "@renderer/state/game/atoms/index";
 
 interface IField {
     cardMdls: CardMdl[];
@@ -16,7 +16,7 @@ export default function Field({
     cardMdls = [],
 }: IField): JSX.Element {
 
-    const [ controlledPlayer ] = useAtom(controlledPlayerAtom);
+    // const [ controlledPlayer ] = useAtom(selectControlledPlayerAtom);
 
     return (
 
@@ -26,7 +26,7 @@ export default function Field({
 
             {cardMdls.map((cardMdl: CardMdl) => {
 
-                const isControlledCard = controlledPlayer?.isPlayerCard(cardMdl.getId());
+                const isControlledCard = true; // controlledPlayer?.isPlayerCard(cardMdl.getId());
 
                 return (
                     isControlledCard ?
@@ -35,7 +35,7 @@ export default function Field({
                         key={cardMdl.getId()}
                     />
                     :
-                    <EnemyCard
+                    <ControlledCard
                         cardMdl={cardMdl}
                         key={cardMdl.getId()}
                     />

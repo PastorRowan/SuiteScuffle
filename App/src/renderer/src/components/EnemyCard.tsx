@@ -12,7 +12,7 @@ import {
     currentPlayerFieldAtom,
     currentPlayerHandAtom,
     controlledPlayerAtom,
-} from "@state/atoms/atoms";
+} from "@renderer/state/game/atoms/index";
 
 // Define props for the component
 interface CardProps {

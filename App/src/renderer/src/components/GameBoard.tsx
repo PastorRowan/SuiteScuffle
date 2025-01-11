@@ -5,9 +5,6 @@ import PlayerBoard from "./PlayerBoard";
 import { PlayerMdl } from "@models/PlayerMdl";
 import Deck from "./Deck";
 
-import { useAtom } from "jotai";
-import { currentPlayerAtom, controlledPlayerAtom } from "@state/atoms/atoms";
-
 // Define the props interface for GameBoard
 interface GameBoardProps {
     id: string;
@@ -22,8 +19,8 @@ export default function GameBoard({
 }: GameBoardProps ): JSX.Element {
 
     // Using Jotai's useAtom hook to access the atoms
-    const [ currentPlayer ] = useAtom(currentPlayerAtom); // Current player atom
-    const [ controlledPlayer, setControlledPlayer ] = useAtom(controlledPlayerAtom); // Controlled player atom
+    // const [ currentPlayer ] = useAtom(currentPlayerAtom); // Current player atom
+    // const [ controlledPlayer, setControlledPlayer ] = useAtom(selectControlledPlayerAtom); // Controlled player atom
 
     return (
         <div className="w-full h-screen bg-pink-500 bg-opacity-50">

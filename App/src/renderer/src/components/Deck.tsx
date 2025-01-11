@@ -1,6 +1,7 @@
 
 import { useAtom } from "jotai";
-import { nextTurnAtom } from "@state/atoms/atoms";
+
+import { nextTurnAtom } from "@renderer/state/game/atoms/index";
 
 import CardDisplay from "./CardDisplay";
 
