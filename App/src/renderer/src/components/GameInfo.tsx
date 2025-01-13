@@ -1,8 +1,20 @@
 
-import { IGameInfoProps } from "@interfaces/IGameInfoProps";
 import { useState, useEffect } from "react";
 
-export default function GameInfo({ id, players, currentTurn }: IGameInfoProps): JSX.Element {
+import { PlayerMdl } from "@models/PlayerMdl";
+
+// Define props for the component
+export interface IGameInfoProps {
+    gameId: string; // Unique identifier for the game
+    players: PlayerMdl[]; // Array of player names
+    currentTurn: string; // The player whose turn it is
+};
+
+export default function GameInfo({
+    gameId,
+    players,
+    currentTurn
+}: IGameInfoProps): JSX.Element {
     
     const [isVisible, setIsVisible] = useState(false); // State to control visibility
 
@@ -26,7 +38,7 @@ export default function GameInfo({ id, players, currentTurn }: IGameInfoProps): 
 
     return (
         <div className={`h-[20%] ${isVisible ? "visible" : "invisible"}`}>
-            <h1>Game ID: {id}</h1>
+            <h1>Game ID: {gameId}</h1>
             <h2>Players:</h2>
             <ul>
                 {players.map((player) => (

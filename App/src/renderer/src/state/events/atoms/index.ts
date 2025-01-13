@@ -1,19 +1,14 @@
 
 import { atom } from "jotai";
 
+import { toggleMcCardSelectionAtom } from "@state/game/atoms";
+
 // Write-only Event Atom for selecting a card
-export const toggleSelectCardAtom = atom(
-    null, // Write-only
-    (get, set, cardId: string) => {
-        // Retrieve current selected cards
-        const selectedCards = get(selectedCardsAtom);
-    
-        // Check if the card is already selected
-        if (!selectedCards.includes(cardId)) {
-            set(selectedCardsAtom, [...selectedCards, cardId]);
-        } else {
-            console.warn("Card is already selected.");
-        }
+export const handleMcClickCardAtom = atom(
+    null,
+    (get, set, id: string) => {
+        // Use the set function to call toggleMcCardSelectionAtom
+        set(toggleMcCardSelectionAtom, id);
     },
 );
 

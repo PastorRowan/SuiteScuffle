@@ -4,32 +4,17 @@ import GameInfo from "./GameInfo";
 import PlayerBoard from "./PlayerBoard";
 import { PlayerMdl } from "@models/PlayerMdl";
 import Deck from "./Deck";
+import { useAtom } from "jotai";
+import { playerBoardOrderDisplayAtom } from "@renderer/state/display/atoms/player";
 
-// Define the props interface for GameBoard
-interface GameBoardProps {
-    id: string;
-    players: PlayerMdl[];
-    currentTurn: string; // make type id or even player id just makes things easier
-};
+export default function GameBoard(): JSX.Element {
 
-export default function GameBoard({
-    id,
-    players,
-    currentTurn,
-}: GameBoardProps ): JSX.Element {
-
-    // Using Jotai's useAtom hook to access the atoms
-    // const [ currentPlayer ] = useAtom(currentPlayerAtom); // Current player atom
-    // const [ controlledPlayer, setControlledPlayer ] = useAtom(selectControlledPlayerAtom); // Controlled player atom
+    const [ playerBoardOrder ] = useAtom(playerBoardOrderDisplayAtom);
 
     return (
         <div className="w-full h-screen bg-pink-500 bg-opacity-50">
             <div className="w-full ml-4">
-                <GameInfo
-                    id={id}
-                    players={players}
-                    currentTurn={currentTurn}
-                />
+                {/* <GameInfo /> */}
             </div>
             <div
                 className="absolute inset-0 flex items-center justify-center"
@@ -38,7 +23,7 @@ export default function GameBoard({
             </div>
             {/* Render Player Boards */}
 
-            {players.map((playerMdl: PlayerMdl, index: Number) => {
+            {playerBoardOrder.map((playerId: string, index: Number) => {
                 let positionClass = "";
                 switch (index) {
                     case 0:
@@ -60,8 +45,8 @@ export default function GameBoard({
                 return (
                     <PlayerBoard
                         className={positionClass}
-                        playerMdl={playerMdl}
-                        key={`player ${playerMdl.getId()}`}
+                        playerId={playerId}
+                        key={playerId}
                     />
                 );
             })}

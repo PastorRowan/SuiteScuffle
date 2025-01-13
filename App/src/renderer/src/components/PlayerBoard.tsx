@@ -1,40 +1,26 @@
 
-import { PlayerMdl } from "@models/PlayerMdl";
-
 import Field from "./Field";
-
 import Hand from "./Hand";
-
-import ControlledCard from "./ControlledCard";
 
 export interface IPlayerBoardProps {
     className: string;
-    playerMdl: PlayerMdl;
+    playerId: string;
 };
 
 export default function PlayerBoard({
     className = "",
-    playerMdl,
+    playerId,
 }: IPlayerBoardProps): JSX.Element {
-
-    const cardMdl = playerMdl.getField()[0];
-
     return (
         <div
             className={className}
         >
-            <ControlledCard
-                cardMdl={cardMdl}
+            <Field
+                playerId={playerId}
+            />
+            <Hand
+                playerId={playerId}
             />
         </div>
     );
 };
-
-/*
-            <Field
-                cardMdls={playerMdl.getField()}
-            />
-            <Hand
-                cardMdls={playerMdl.getHand()}
-            />
-*/

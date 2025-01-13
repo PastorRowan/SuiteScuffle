@@ -1,45 +1,45 @@
 
-import ControlledCard from "./ControlledCard";
-import EnemyCard from "./EnemyCard";
+import InteractableCard from "./ControlledCard";
+import UninteractableCard from "./EnemyCard";
 import { CardMdl } from "@models/CardMdl";
-
 import { useAtom } from "jotai";
 import {
-    selectControlledPlayerAtom,
-} from "@renderer/state/game/atoms/index";
+    selectPlayerHandCardMdlsAtom,
+    isMcAtom,
+} from "@state/game/atoms/index";
 
 interface Hand {
-    cardMdls: CardMdl[],
+    playerId: string,
 };
 
 export default function Hand({
-    cardMdls = [],
+    playerId,
 }: Hand): JSX.Element {
-    
-    // const [ controlledPlayer ] = useAtom(selectControlledPlayerAtom);
+
+    const [ selectPlayerFieldCardMdls ] = useAtom(selectPlayerHandCardMdlsAtom);
+
+    const cardMdls = selectPlayerFieldCardMdls(playerId);
+
+    const [ isMcFunc ] = useAtom(isMcAtom);
+
+    const isMc = isMcFunc(playerId);
 
     return (
         <div
             className="flex justify-center"
         >
-
-            {cardMdls.map((cardMdl: CardMdl) => {
-
-                const isControlledCard = true; // controlledPlayer?.isPlayerCard(cardMdl.getId());
-
-                return (
-                    isControlledCard ?
-                    <ControlledCard
+            {cardMdls?.map((cardMdl: CardMdl, i: number) =>
+                isMc ? (
+                    <InteractableCard
                         cardMdl={cardMdl}
                         key={cardMdl.getId()}
                     />
-                    :
-                    <ControlledCard
-                        cardMdl={cardMdl}
-                        key={cardMdl.getId()}
+                ) : (
+                    <UninteractableCard
+                        key={`${i}`}
                     />
-                );
-            })}
+                )
+            )}
         </div>
     );
 };

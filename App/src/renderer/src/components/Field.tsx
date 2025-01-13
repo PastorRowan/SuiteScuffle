@@ -1,46 +1,33 @@
 
-import ControlledCard from "./ControlledCard";
-import EnemyCard from "./EnemyCard";
+import { isMcAtom, selectPlayerFieldCardMdlsAtom } from "@state/game/atoms";
+import InteractableCard from "./ControlledCard";
+import UninteractableCard from "./EnemyCard";
 import { CardMdl } from "@models/CardMdl";
-
 import { useAtom } from "jotai";
-import {
-    selectControlledPlayerAtom,
-} from "@renderer/state/game/atoms/index";
 
 interface IField {
-    cardMdls: CardMdl[];
+    playerId: string,
 };
 
 export default function Field({
-    cardMdls = [],
+    playerId,
 }: IField): JSX.Element {
 
-    // const [ controlledPlayer ] = useAtom(selectControlledPlayerAtom);
+    const [ selectPlayerFieldCardMdls ] = useAtom(selectPlayerFieldCardMdlsAtom);
+
+    const cardMdls = selectPlayerFieldCardMdls(playerId);
 
     return (
 
         <div
             className="flex justify-center"
         >
-
-            {cardMdls.map((cardMdl: CardMdl) => {
-
-                const isControlledCard = true; // controlledPlayer?.isPlayerCard(cardMdl.getId());
-
-                return (
-                    isControlledCard ?
-                    <ControlledCard
-                        cardMdl={cardMdl}
-                        key={cardMdl.getId()}
-                    />
-                    :
-                    <ControlledCard
-                        cardMdl={cardMdl}
-                        key={cardMdl.getId()}
-                    />
-                );
-            })}
+            {cardMdls?.map((cardMdl: CardMdl) =>
+                <InteractableCard
+                    cardMdl={cardMdl}
+                    key={cardMdl.getId()}
+                />
+            )}
         </div>
 
     );

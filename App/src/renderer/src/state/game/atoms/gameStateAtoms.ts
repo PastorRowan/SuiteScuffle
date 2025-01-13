@@ -1,32 +1,90 @@
 
 import { atom } from "jotai";
 
-import { PlayerMdl } from "@models/PlayerMdl";
+import {
+    
+} from "./cards";
 
-import { samplePlayers } from "./samplePlayers";
+import {
+    selectPlayerAtom,
+    // selectPlayersAtom,
+} from "./players";
 
-import { hasControlledPlayerSelectedCardsAtom, hasControlledPlayerSelectedEnemyCardAtom } from "./controlledPlayerAtoms";
-
+/*
 interface GameState {
-    players: PlayerMdl[];
-    currentTurn: number; // Index of the player whose turn it is
+    controlledPlayerId: string,
+    turnOrder: Array<string>,
+    currentTurnPlayerId: string;
+    status: "idle" | "battling",
 };
+*/
 
 // Initialize the atom with the state
-const gameStateAtomBase = atom<GameState>({
-    players: samplePlayers,
-    currentTurn: 0, // Start with Player 1"s turn
+const gameStateAtomBase = atom({
+    mcPlayerId: "1",
+    turnOrder: ["1", "2"],
+    currentTurnPlayerId: "1",
+    status: "idle",
 });
 
-export const selectGameStateAtom = atom<GameState>(
-    (get) => get(gameStateAtomBase),
+export const selectGameStateAtom = atom(
+    get => get(gameStateAtomBase),
+);
+
+export const selectMcIdAtom = atom(
+    get => {
+        const gameStateAtom = get(selectGameStateAtom);
+        const controlledPlayerId = gameStateAtom.mcPlayerId
+        return controlledPlayerId;
+    },
+);
+
+// add warning if there is no mc
+export const selectMc = atom(
+    get => {
+        const mcPlayerId = get(selectMcIdAtom);
+        const selectPlayer = get(selectPlayerAtom);
+        return selectPlayer(mcPlayerId);
+    },
+);
+
+export const selectMcHand = atom(
+    get => {
+        const mc = get(selectMc);
+        const mcHand = mc?.getHand();
+        return mcHand;
+    },
+);
+
+export const selectMcField = atom(
+    get => {
+        const mc = get(selectMc);
+        const mcField = mc?.getField();
+        return mcField;
+    },
 );
 
 // Create an atom to manage the current player based on currentTurn
-export const currentPlayerAtom = atom(
-    (get) => {
+export const selectCurrentTurnPlayerIdAtom = atom(
+    get => {
         const gameState = get(selectGameStateAtom);
-        return gameState.players[gameState.currentTurn];
+        const currentTurnPlayerId = gameState.currentTurnPlayerId;
+        return currentTurnPlayerId;
+    },
+);
+
+export const selectCurrentTurnPlayerAtom = atom(
+    get => {
+        const currentTurnPlayerId = get(selectCurrentTurnPlayerIdAtom);
+        const selectPlayer = get(selectPlayerAtom);
+        return selectPlayer(currentTurnPlayerId);
+    },
+);
+
+export const selectTurnOrderAtom = atom(
+    get => {
+        const gameState = get(selectGameStateAtom);
+        return gameState.turnOrder;
     },
 );
 
@@ -35,26 +93,31 @@ export const nextTurnAtom = atom(
     null,
     (get, set) => {
         const gameState = get(selectGameStateAtom);
-        const nextTurn = (gameState.currentTurn + 1) % gameState.players.length;
-        set(gameStateAtomBase, { ...gameState, currentTurn: nextTurn });
+        const currentTurnPlayerIndex = gameState.turnOrder.indexOf(gameState.currentTurnPlayerId);
+
+        // Get the next player in the turn order (cycle back to the first player if at the end)
+        const nextPlayerIndex = (currentTurnPlayerIndex + 1) % gameState.turnOrder.length;
+        const nextPlayerId = gameState.turnOrder[nextPlayerIndex];
+
+        // Update the current turn player
+        set(gameStateAtomBase, {
+            ...gameState,
+            currentTurnPlayerId: nextPlayerId,
+            // Optional: You can reset the status here if needed
+            status: "idle", // Reset status or set it to "battling" as needed
+        });
     },
 );
 
-// Atom to check if both a controlled card and an enemy card are selected
-export const isBattleReadyAtom = atom<boolean>((get) => {
+export const isMcTurn = atom(
+    (get) => {
+        const mcPlayerId = get(selectMcIdAtom);
+        const currentTurnPlayerId = get(selectCurrentTurnPlayerIdAtom);
+        // Check if the controlled player is the one whose turn it is
+        return mcPlayerId === currentTurnPlayerId;
+    },
+);
 
-    const hasSelectedControlledCards = get(hasControlledPlayerSelectedCardsAtom);
-    const hasSelectedEnemyCard = get(hasControlledPlayerSelectedEnemyCardAtom);
+export const isBattleReady = atom(
 
-    return hasSelectedControlledCards && hasSelectedEnemyCard;
-
-});
-
-// Atom to track the battle state (notStarted, inProgress, resolved)
-export const isBattlingAtom = atom<boolean>((get) => {
-
-    const isBattleReady = get(isBattleReadyAtom);
-
-    return isBattleReady;
-
-});
+);
