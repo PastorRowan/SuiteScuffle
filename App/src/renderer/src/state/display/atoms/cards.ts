@@ -1,6 +1,6 @@
 
 import {
-    selectMcSelectedCardsAtom,
+    selectMcSelectedCardsIdsAtom,
     selectCardsAtom,
     selectMcHand,
     isCardSelectedAtom,
@@ -13,8 +13,8 @@ import { CardMdl } from "@models/CardMdl";
 // Highlighted state: whether a card is highlighted (e.g., for hover effect)
 export const isCardHighlightedAtom = atom(
     get => {
-        const selectMcSelectedCards = get(selectMcSelectedCardsAtom);
-        return (cardId: string) => selectMcSelectedCards.some((id) => id === cardId);
+        const selectMcSelectedCardsIds = get(selectMcSelectedCardsIdsAtom);
+        return (cardId: string) => selectMcSelectedCardsIds.some((id) => id === cardId);
     },
 );
 

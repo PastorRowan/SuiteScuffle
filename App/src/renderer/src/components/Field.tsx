@@ -1,7 +1,6 @@
 
-import { isMcAtom, selectPlayerFieldCardMdlsAtom } from "@state/game/atoms";
+import { selectPlayerFieldCardMdlsAtom } from "@state/game/atoms";
 import InteractableCard from "./ControlledCard";
-import UninteractableCard from "./EnemyCard";
 import { CardMdl } from "@models/CardMdl";
 import { useAtom } from "jotai";
 

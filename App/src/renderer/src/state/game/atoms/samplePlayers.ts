@@ -15,21 +15,20 @@ export const samplePlayers: Record<string, PlayerMdl> = {
             "6",
         ],
         field: [
-
+            "7",
+            "8",
+            "9",
         ],
     }),
     "2": new PlayerMdl({
         id: "2",
         name: "Bob",
         hand: [
-            "7",
-            "8",
-            "9",
-        ],
-        field: [
             "10",
             "11",
             "12",
+        ],
+        field: [
             "13",
             "14",
             "15",

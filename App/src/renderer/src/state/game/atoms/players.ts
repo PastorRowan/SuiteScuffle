@@ -6,7 +6,7 @@ import { samplePlayers } from "./samplePlayers";
 import { PlayerMdl } from "@models/PlayerMdl";
 
 import { selectMc, selectMcIdAtom } from "./gameStateAtoms";
-import { selectCardAtom, selectCardMdlsViaIdsAtom } from "./cards";
+import { selectCardMdlsViaIdsAtom } from "./cards";
 
 // Define the atom to store players as an object with playerIds as keys
 const playersAtomBase = atom<Record<string, PlayerMdl>>(samplePlayers);

@@ -2,7 +2,8 @@
 import { atom } from "jotai";
 
 import {
-    
+    isMcSelectedAnyEnemyCardsAtom,
+    isMcSelectedAnyMcCardsAtom,
 } from "./cards";
 
 import {
@@ -118,6 +119,13 @@ export const isMcTurn = atom(
     },
 );
 
-export const isBattleReady = atom(
+// a cool idea might be basically if we want to know whether a battle will take place is if currentTurn player has
+// selected one or more of currentTurnPlayerCard then one enemy car dyeah that makes sense
 
+export const isBattleReady = atom(
+    get => {
+        const isMcSelectedAnyMcCards = get(isMcSelectedAnyMcCardsAtom);
+        const isMcSelectedAnyEnemyCards = get(isMcSelectedAnyEnemyCardsAtom);
+        return isMcSelectedAnyMcCards && isMcSelectedAnyEnemyCards;
+    },
 );

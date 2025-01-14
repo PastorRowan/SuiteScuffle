@@ -53,7 +53,7 @@ export const selectSelectedCardsIdsAtom = atom<string[]>(
     },
 );
 
-export const selectMcSelectedCardsAtom = atom(
+export const selectMcSelectedCardsIdsAtom = atom(
     get => {
         const selectedCardsMap = get(selectSelectedCardsMapAtom);
         return selectedCardsMap.mc;
@@ -70,7 +70,6 @@ export const selectEnemySelectedCardsAtom = atom(
 export const isCardSelectedAtom = atom(
     get => {
         const selectSelectedCardsIds = get(selectSelectedCardsIdsAtom);
-        console.log("selectSelectedCardsIds: ", selectSelectedCardsIds);
         return (cardId: string) => selectSelectedCardsIds.some(
             (selectedCardId) => {
                 return selectedCardId === cardId;
@@ -136,6 +135,36 @@ export const isEnemyCardAtom = atom(
             };
             return !isPlayerCard;
         };
+    },
+);
+
+export const isMcSelectedAnyCardsAtom = atom(
+    get => {
+        const mcSelectedCards = get(selectMcSelectedCardsIdsAtom);
+        const isMcSelectedAnyCards = mcSelectedCards.length > 0;
+        return isMcSelectedAnyCards;
+    },
+);
+
+export const isMcSelectedAnyMcCardsAtom = atom(
+    get => {
+        const mcSelectedCards = get(selectMcSelectedCardsIdsAtom);
+        const isMcCard = get(isMcCardAtom);
+        const isMcSelectedAnyMcCards = mcSelectedCards.some(
+            (cardId: string) => isMcCard(cardId)
+        );
+        return isMcSelectedAnyMcCards;
+    },
+);
+
+export const isMcSelectedAnyEnemyCardsAtom = atom(
+    get => {
+        const mcSelectedCards = get(selectMcSelectedCardsIdsAtom);
+        const isEnemyCard = get(isEnemyCardAtom);
+        const isMcSelectedAnyEnemyCards = mcSelectedCards.some(
+            (cardId: string) => isEnemyCard(cardId)
+        );
+        return isMcSelectedAnyEnemyCards;
     },
 );
 
