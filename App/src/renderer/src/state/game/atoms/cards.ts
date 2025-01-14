@@ -8,6 +8,7 @@ import { selectEnemiesAtom } from "./players";
 import { CardMdl } from "@models/CardMdl";
 import { sampleCards } from "./sampleCards";
 
+/*
 const cardsAtomBase = atom<Record<string, CardMdl>>(sampleCards);
 
 export const selectCardsAtom = atom(
@@ -204,4 +205,4 @@ export const toggleMcCardSelectionAtom = atom(
         }
     }
 );
-
+*/

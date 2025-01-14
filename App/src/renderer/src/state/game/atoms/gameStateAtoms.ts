@@ -74,14 +74,6 @@ export const selectCurrentTurnPlayerIdAtom = atom(
     },
 );
 
-export const selectCurrentTurnPlayerAtom = atom(
-    get => {
-        const currentTurnPlayerId = get(selectCurrentTurnPlayerIdAtom);
-        const selectPlayer = get(selectPlayerAtom);
-        return selectPlayer(currentTurnPlayerId);
-    },
-);
-
 export const selectTurnOrderAtom = atom(
     get => {
         const gameState = get(selectGameStateAtom);
@@ -111,7 +103,7 @@ export const nextTurnAtom = atom(
 );
 
 export const isMcTurn = atom(
-    (get) => {
+    get => {
         const mcPlayerId = get(selectMcIdAtom);
         const currentTurnPlayerId = get(selectCurrentTurnPlayerIdAtom);
         // Check if the controlled player is the one whose turn it is

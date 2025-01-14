@@ -1,16 +1,14 @@
 
 import { IPlayer } from "@interfaces/IPlayer";
 
-import { CardMdl } from "./CardMdl";
-
 export class PlayerMdl implements IPlayer {
 
     public id: string;
     public name: string;
     public score: number;
     public isTurn: boolean;
-    public hand: Array<CardMdl>;
-    public field: Array<CardMdl>;
+    public hand: Array<string>;
+    public field: Array<string>;
 
     constructor({
         id,
@@ -24,8 +22,8 @@ export class PlayerMdl implements IPlayer {
         name: string;
         score?: number;
         isTurn?: boolean;
-        hand?: Array<CardMdl>;
-        field?: Array<CardMdl>;
+        hand?: Array<string>;
+        field?: Array<string>;
     }) {
         this.id = id;
         this.name = name;
@@ -39,16 +37,26 @@ export class PlayerMdl implements IPlayer {
 
         const allPlayerCards = [...this.getField(), ...this.getHand()];
 
-        return allPlayerCards.some((card: CardMdl) => card.getId() === id);
+        return allPlayerCards.some((cardId: string) => cardId === id);
 
     };
 
-    getHand(): Array<CardMdl> {
+    getHand(): Array<string> {
         return this.hand;
     };
 
-    getField(): Array<CardMdl> {
+    pushHandCardId(cardId: string): string {
+        this.hand.push(cardId);
+        return cardId;
+    };
+
+    getField(): Array<string> {
         return this.field;
+    };
+
+    pushFieldCardId(cardId: string): string {
+        this.field.push(cardId);
+        return cardId;
     };
 
     // Getter for player ID
